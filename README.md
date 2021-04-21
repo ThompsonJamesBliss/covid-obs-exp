@@ -3,6 +3,7 @@
 This Github repository corresponds with the "Observed Versus Expected COVID-19 Infections Among National Football League Players During the 2020 Season" paper and includes code/data with that allows one to go through the simulation process.
 
 `simulateCases.R`: code used to run a series of COVID-19 simulations of the 2020 NFL season using data from the county of each team's practice facility.
+
 `visualize.R`: code used to make the plots in the paper. 
 
 `raw data/fakeDailyPlayerPositives.csv`: fake data of player positives of for each team on each date.
