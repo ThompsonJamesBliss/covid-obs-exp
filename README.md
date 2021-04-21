@@ -11,7 +11,7 @@ This Github repository corresponds with the "Observed Versus Expected COVID-19 I
 ## Data
 
 `raw data/fakeDailyPlayerPositives.csv`: fake data of player positives of for each team on each date.
-- `observationDay`: Date of observation.
+- `observationDay`: date of observation.
 - `team`: NFL team.
 - `cumPos`: cumulative positives for team to Date (all set to 0).
 
