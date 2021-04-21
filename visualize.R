@@ -1,17 +1,18 @@
 library(ggridges)
 library(tidyverse)
-
+library(extrafont)
 
 #############################
 ######## Loading Fonts / Creating Plot Theme
 #############################
+loadfonts(device='win')
+
+
 theme_nfl_1 <- theme_bw(16) + 
   theme(plot.title = element_text(hjust = 0.5), panel.border = element_rect(colour = "#013369", size = 2),
         axis.text = element_text(colour="#013369"), axis.ticks = element_line(colour = "#013369", size = 1.5),
         text = element_text(colour="#013369", family = "Endzone Sans Medium", size = 25),
         strip.background = element_blank(), strip.text = element_text(colour="#013369"), plot.subtitle = element_text(hjust = 0.5))
-
-
 
 
 
