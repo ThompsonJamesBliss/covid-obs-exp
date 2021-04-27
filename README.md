@@ -1,6 +1,6 @@
 # Observed Versus Expected COVID-19 Infections Among National Football League Players During the 2020 Season
 
-This Github repository corresponds with the "Observed Versus Expected COVID-19 Infections Among National Football League Players During the 2020 Season" paper and includes code/data that allows one to go through the simulation process.
+This Github repository corresponds with the "Observed Versus Expected COVID-19 Infections Among National Football League Players During the 2020 Season" paper and includes code/data that allows one to go through the simulation and visualization process.
 
 ## Scripts
 
