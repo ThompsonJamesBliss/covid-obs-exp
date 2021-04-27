@@ -38,7 +38,7 @@ df_simResultsAggregated <- df_simResults %>%
   group_by(team, observationDay) %>%
   
   #taking mean of cumulative positives accross simulation iterations
-  summarise(cumPos = mean(cumPos)) %>%
+  summarise(cumPos = mean(cumPos), .groups = 'keep') %>%
   
   #ungrouping
   ungroup()
@@ -56,7 +56,7 @@ df_simResultsAggregatedByDate <- df_simResults %>%
   group_by(observationDay, iteration) %>%
 
   #taking mean accross dates
-  summarise(cumPos = mean(cumPos)) %>%
+  summarise(cumPos = mean(cumPos), .groups = 'keep') %>%
 
   ungroup()
 
@@ -112,14 +112,10 @@ df_simResultsAggregated %>%
   scale_color_manual(values = c('#013369', '#D50A0A'))
 
 
-ggsave('plots/averageAccrossTeams.png', width = 12, height = 8)
 
 
 
-
-
-
-
+bandWidth <- 0.8
 
 
 df_simResults  %>%
@@ -128,32 +124,45 @@ df_simResults  %>%
   inner_join(df_playerPositives, by = c("observationDay", "team"),
              suffix = c("", "_Observed")) %>%
   
+  #selecting last day
   filter(observationDay == '2021-01-02') %>%
   
+  #grouping by team
   group_by(team) %>%
   
-  mutate(order = density(cumPos, bw = 0.4)$x[density(cumPos, bw = 0.4)$y == max(density(cumPos, bw = 0.4)$y)],
+  #creating values for graph
+  mutate(#used to order the teams - finding the x coordinate at maximum bandwidth
+        order = density(cumPos, bw = bandWidth)$x[density(cumPos, bw = bandWidth)$y == max(density(cumPos, bw = bandWidth)$y)],
+         
+         #used for label
          colVal = 'Represents\nObserved\nValue',
+         
+         #used to fill the density curves
          fill_val = mean(cumPos >= cumPos_Observed)) %>%
   
+  #ungrouping
   ungroup() %>%
   
+  #reordering
   mutate(team = reorder(team, order)) %>%
   
+  #plotting
   ggplot(aes(y = team, x = cumPos, fill = fill_val)) +
   
-  geom_density_ridges() +
+  #density ridgers
+  geom_density_ridges(bandwidth = bandWidth) +
   
+  #segement representing final team positives
   geom_segment(aes(y = as.integer(team), yend = as.integer(team) + 1, x = cumPos_Observed, xend = cumPos_Observed, color = colVal),
                lwd = 1) +
   
+  #setting colors / theme
   scale_color_manual(values = 'black') +
   scale_fill_gradientn(colours = c('firebrick1', 'white', 'white', 'white', 'dodgerblue2'), limits = c(0,1),  guide = 'none') +
   theme_nfl_1 +
+  
+  #setting labels
   ylab('') +
   ggtitle('Distributions of Expected Covid-19 Cases, By Team') +
   labs(color = '') +
   xlab('Simulated Total Positive Cases')
-
-
-ggsave('plots/density.png', width = 12, height = 9)

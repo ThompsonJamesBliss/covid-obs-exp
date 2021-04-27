@@ -25,14 +25,36 @@ df_teamCountyPositives <- read_csv('raw data/teamCountyPopulationPositives.csv')
 
 df_teamCountyPositives <- df_teamCountyPositives %>%
   
-  #arranging by date
-  arrange(observationDay) %>%
-  
   #calculating county prob of getting positive test
   mutate(positiveProb = positives / population * positiveTests2PositiveCases) %>%
   
-  #removing unecessary columns
-  select(-c('positives', 'population'))
+  #taking weighted average accross givent team's nearby counties
+  group_by(observationDay, team) %>%
+  
+  #calculating the population-weighted positive probability
+  summarise(positiveProb = sum(population * positiveProb) / sum(population), .groups = 'keep') %>%
+  
+  #ungrouping
+  ungroup() %>%
+  
+  #grouping by team
+  group_by(team) %>%
+  
+  #arranging by date
+  arrange(team, observationDay) %>%
+  
+  #taking 7 day rolling average
+  mutate(positiveProb = (lag(positiveProb, 3) + lag(positiveProb, 2) + lag(positiveProb, 1) +
+                           positiveProb + lead(positiveProb, 1) + lead(positiveProb, 2) +
+                           lead(positiveProb, 3)) / 7) %>%
+  
+  #ungrouping
+  ungroup()  %>%
+  
+  #removing data outside of range of interest
+  filter(observationDay >= '2020-08-01',
+         observationDay <= '2021-01-02')
+
 
 
 #adjusting for SF's move to ARI
@@ -79,7 +101,7 @@ df_sim <- inner_join(df_teamCountyPositives,
 
 
 #iterations
-numIterations <- 500
+numIterations <- 1000
 
 
 #results of simulation
