@@ -19,7 +19,7 @@ This Github repository corresponds with the "Observed Versus Expected COVID-19 I
 - `team`: NFL team.
 - `priorPositives`: total positives for team (all set to 0).
 
-`raw data/teamCountyPopulationPositives.csv`: population and positives in NFL team's practice facility county.
+`raw data/teamCountyPopulationPositives.csv`: population and positives for each county near a given NFL team's practice facility.
 - `observationDay`: date of observation.
 - `team`: NFL team.
 - `county`: county near NFL team.
