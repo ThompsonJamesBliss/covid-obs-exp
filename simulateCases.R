@@ -5,7 +5,7 @@ library(tidyverse)
 ######## Reading Data
 #############################
 
-#CDC conversion of positive tests to positive cases
+#CDC conversion of positive tests to positive cases for ages 18-49
 positiveTests2PositiveCases <- 6.5
 
 #Positive tests for each team by date
@@ -48,7 +48,7 @@ df_teamCountyPositives <- df_teamCountyPositives %>%
                            positiveProb + lead(positiveProb, 1) + lead(positiveProb, 2) +
                            lead(positiveProb, 3)) / 7) %>%
   
-  #ungrouping
+  #un-grouping
   ungroup()  %>%
   
   #removing data outside of range of interest
@@ -101,7 +101,7 @@ df_sim <- inner_join(df_teamCountyPositives,
 
 
 #iterations
-numIterations <- 1000
+numIterations <- 800
 
 
 #results of simulation
@@ -145,7 +145,7 @@ for(i in seq(1, numIterations)){
       #summing cumulative players with COViD
       mutate(hasCovid = cummax(hasCovid)) %>%
       
-      #ungrouping
+      #un-grouping
       ungroup() %>%
       
       #grouping by team and date
@@ -154,7 +154,7 @@ for(i in seq(1, numIterations)){
       #summing number of players above prior with COViD
       summarise(cumPos = sum(hasCovid) - first(priorPositives), .groups = 'keep') %>%
       
-      #ungrouping
+      #un-grouping
       ungroup() %>%
       
       #saving iteration number to results
@@ -166,3 +166,5 @@ for(i in seq(1, numIterations)){
   
 
 }
+
+write.csv(df_simResults, 'sampleSim.csv', row.names = F)
