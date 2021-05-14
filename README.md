@@ -11,6 +11,10 @@ This Github repository corresponds with the "Observed Versus Expected COVID-19 I
 ## Data
 
 `sampleSim.csv`: sample results of the 2020 NFL season COVID-19 simulation which is created by running from the `simulateCases.R` script.
+- `team`: NFL team.
+- `observationDay`: date of observation.
+- `cumPos`: simulated cumulative season positives for given team on given date.
+- `iteration`: simulation iteration number.
 
 `raw data/fakePriorPlayerPositives.csv`: fake data of player positives prior to 08/01/2020 (first date of simulation).
 - `team`: NFL team.
