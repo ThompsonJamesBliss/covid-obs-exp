@@ -32,4 +32,4 @@ This Github repository corresponds with the "Observed Versus Expected COVID-19 I
 `raw data/teamTests.csv`: information on whether an NFL team took COVID-19 tests on a given day.
 - `observationDay`: date of observation.
 - `team`: NFL team.
-- `hadFirstFourWeeksGame`: binary variable for whether team had a game during the first four weeks of the regular season on given day.
+- `testedToday`: binary variable for whether team tested on a given day (based on whether it was a game day during the first four weeks of the season).
